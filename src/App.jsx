@@ -1,8 +1,10 @@
+import Navbar from "./components/Navbar";
+
 function App() {
   return(
     <div>
-      <h1>Meena's Recipe Planner</h1>
-      
+      <h1></h1>
+      <Navbar />
     </div>
   )
 }
