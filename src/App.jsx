@@ -5,6 +5,7 @@ import SearchBar from "./components/SearchBar";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState(""); //Track search input
+  const [favorites, setFavorites] = useState([]);
   
   const recipes = [
     {id: 1, title: "Spicy Pasta",image: "/pasta.jpg"},
@@ -12,6 +13,15 @@ function App() {
     { id: 3, title: "Grilled Chicken", image: "/chicken.jpg" },
     { id: 4, title: "Veggie Burger", image: "/burger.jpg" },
   ];
+  
+  const ToggleFavorite = (id) => {
+    if (favorites.includes(id)) {
+      setFavorites(favorites.filter(favId => favId !== id));
+    } else {
+      setFavorites([...favorites, id]);
+    }
+  };
+
   //Logic: Filter recipes based on the search term
   const filteredRecipes = recipes.filter((recipe)=>
     recipe.title.toLowerCase().includes(searchTerm.toLowerCase().trim())
@@ -26,7 +36,10 @@ function App() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
            {filteredRecipes.map((recipe)=>(
-            <RecipeCard  key={recipe.id} recipe={recipe}/>
+            <RecipeCard  key={recipe.id} recipe={recipe}
+            isFavorite={favorites.includes(recipe.id)}
+            ToggleFavorite={ToggleFavorite}
+            />
            ))}
         </div>
 
