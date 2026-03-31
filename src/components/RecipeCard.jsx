@@ -1,4 +1,4 @@
-const RecipeCard = ({ recipe, isFavorite, ToggleFavorite }) => {
+const RecipeCard = ({ recipe, isFavorite, ToggleFavorite, onView}) => {
   return (
     <div className="relative max-w-sm rounded overflow-hidden shadow-lg bg-white hover:shadow-2xl transition-shadow duration-300">
       {/* Favorite Button */}
@@ -20,7 +20,14 @@ const RecipeCard = ({ recipe, isFavorite, ToggleFavorite }) => {
 
       <div className="px-6 py-4">
         <div className="font-bold text-xl text-gray-800">{recipe.title}</div>
+        <button 
+        onClick={() => onView(recipe)}
+        className="w-full bg-orange-500 text-white py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors"
+        >
+            View Recipe 
+        </button>
       </div>
+      
     </div>
   );
 };

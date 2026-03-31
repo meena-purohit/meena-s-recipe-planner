@@ -2,26 +2,67 @@ import { useState , useEffect} from "react";
 import Navbar from "./components/Navbar";
 import RecipeCard from "./components/RecipeCard";
 import SearchBar from "./components/SearchBar";
+import RecipeModal from "./components/RecipeModal";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState(""); //Track search input
   const [selectedCategory, setSelectedCategory] = useState("All");
+  
   const [favorites, setFavorites] = useState(() =>{
     const saved = localStorage.getItem("meena-favorites");
     return saved ? JSON.parse(saved) : [];
   });
+
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   useEffect(() => {
     localStorage.setItem("meena-favorites", JSON.stringify(favorites));
   }, [favorites]);
  
   const recipes = [
-    { id: 1, title: "Spicy Pasta", image: "/pasta.jpg", category: "Dinner" },
-    { id: 2, title: "Salad Bowl", image: "/salad.jpg", category: "Lunch" },
-    { id: 3, title: "Grilled Chicken", image: "/chicken.jpg", category: "Dinner" },
-    { id: 4, title: "Veggie Burger", image: "/burger.jpg" , category: "Lunch"},
-    {id:5, title: "Egg Toast", image: "/eggtoast.jpg", category: "Breakfast"},
-  ];
+    
+  { 
+    id: 1, 
+    title: "Spicy Pasta", 
+    image: "/pasta.jpg", 
+    category: "Dinner",
+    ingredients: ["200g Pasta", "2 cloves Garlic", "1 tsp Chili Flakes", "Olive Oil"],
+    instructions: "Boil pasta until al dente. Sauté garlic and chili flakes in oil. Toss pasta in the sauce and serve hot."
+  },
+  { 
+    id: 2, 
+    title: "Salad Bowl", 
+    image: "/salad.jpg", 
+    category: "Lunch",
+    ingredients: ["Mixed Greens", "Cherry Tomatoes", "Cucumber", "Lemon Dressing"],
+    instructions: "Chop all vegetables into bite-sized pieces. Toss in a large bowl with lemon dressing and a pinch of salt."
+  },
+  { 
+    id: 3, 
+    title: "Grilled Chicken", 
+    image: "/chicken.jpg", 
+    category: "Dinner",
+    ingredients: ["Chicken Breast", "Rosemary", "Lemon", "Black Pepper"],
+    instructions: "Marinate chicken with lemon and rosemary. Grill for 6-8 minutes on each side until golden brown."
+  },
+  { 
+    id: 4, 
+    title: "Veggie Burger", 
+    image: "/burger.jpg", 
+    category: "Lunch",
+    ingredients: ["Veggie Patty", "Whole Grain Bun", "Lettuce", "Tomato Slice"],
+    instructions: "Toast the buns. Grill the patty until crispy. Assemble with fresh lettuce and tomato."
+  },
+  { 
+    id: 5, 
+    title: "Egg Toast", 
+    image: "/eggtoast.jpg", 
+    category: "Breakfast",
+    ingredients: ["2 slices Bread", "2 Eggs", "Butter", "Avocado"],
+    instructions: "Toast bread with butter. Fry eggs to your liking. Top toast with sliced avocado and the fried eggs."
+  }
+];
+
 
   const ToggleFavorite = (id) => {
     setFavorites((prev) =>
@@ -44,6 +85,12 @@ function App() {
         </h2>
 
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
+        <RecipeModal
+        recipe={selectedRecipe}
+        isOpen={!!selectedRecipe}
+        onClose={()=> setSelectedRecipe(null)}
+        />
 
         <div>
           {["All", "Breakfast", "Lunch", "Dinner"].map((cat)=>(
@@ -68,6 +115,7 @@ function App() {
               recipe={recipe}
               isFavorite={favorites.includes(recipe.id)}
               ToggleFavorite={ToggleFavorite}
+              onView={setSelectedRecipe}
             />
           ))}
         </div>
