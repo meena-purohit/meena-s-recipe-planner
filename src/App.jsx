@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import Navbar from "./components/Navbar";
 import RecipeCard from "./components/RecipeCard";
 import SearchBar from "./components/SearchBar";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState(""); //Track search input
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState(() =>{
+    const saved = localStorage.getItem("meena-favorites");
+    return saved ? JSON.parse(saved) : [];
+  });
 
+  useEffect(() => {
+    localStorage.setItem("meena-favorites", JSON.stringify(favorites));
+  }, [favorites]);
   const recipes = [
     { id: 1, title: "Spicy Pasta", image: "/pasta.jpg" },
     { id: 2, title: "Salad Bowl", image: "/salad.jpg" },
