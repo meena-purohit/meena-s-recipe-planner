@@ -1,16 +1,42 @@
-# React + Vite
+# 🍳 Meena's Recipe Planner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A professional, responsive **React + Vite** application built with **Tailwind CSS**. This project helps users discover, filter, and save their favorite recipes with persistent data.
 
-Currently, two official plugins are available:
+![Project Preview](https://placeholder.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+- **🔍 Search Functionality**: Real-time filtering of recipes by title.
+- **📂 Category Filtering**: Sort recipes by Breakfast, Lunch, or Dinner.
+- **❤️ Favorites System**: Toggle favorites on any recipe with a live counter in the Navbar.
+- **💾 Local Storage**: Your favorite recipes are saved even after refreshing the page.
+- **📱 Responsive Design**: Fully optimized for Mobile, Tablet, and Desktop using Tailwind CSS.
+- **📋 Recipe Details**: Interactive Modal popup showing ingredients and instructions.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework**: React (Vite)
+- **Styling**: Tailwind CSS
+- **Icons**: Emoji-based UI
+- **State Management**: React Hooks (`useState`, `useEffect`)
+- **Version Control**: Professional Git Flow (Feature Branch Workflow)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Getting Started
+
+Follow these steps to run the project locally:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com
+
+
+# 🍳 Meena's Recipe Planner
+
+[🔗 View Live Demo](https://meena-s-recipe-planner-ijzgqxiha-meena-purohits-projects.vercel.app/)
+
+## 📸 Screenshots
+
+
+| Home Page | Search Results | Recipe Details |
+| :--- | :--- | :--- |
+| ![Home](./src/assets/home.png) | ![Search](./src/assets/search.png) | ![Modal](./src/assets/modal.png) |
