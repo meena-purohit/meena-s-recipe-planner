@@ -23,12 +23,11 @@ A professional, responsive **React + Vite** application built with **Tailwind CS
 
 ## 🚀 Getting Started
 
-Follow these steps to run the project locally:
 
 
 # 🍳 Meena's Recipe Planner
 
-[🔗 View Live Demo](https://meena-s-recipe-planner-ijzgqxiha-meena-purohits-projects.vercel.app/)
+[🔗 View Live Demo](https://meena-s-recipe-planner.vercel.app/)
 
 ## 📸 Screenshots
 

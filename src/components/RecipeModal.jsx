@@ -1,8 +1,21 @@
+import { useEffect } from "react";
+
+
 const RecipeModal = ({recipe, isOpen, onClose}) => {
 
-    if (!isOpen || !recipe) return null;
+   useEffect(() => {
+    if(isOpen) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'unset';
+    }
+    return () => {
+        document.body.style.overflow = 'unset';
+    };
+   },[isOpen]);
+    if (!isOpen) return null;
     return(
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-10 flex items-center  justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50  flex items-center  justify-center p-4 z-50">
             <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl animate-in fade-in zoom-in duration-200 ">
                 <button onClick={onClose}
                 className="absolute top-4 right-4 text-gray-500 hover:text-black text-2xl"
