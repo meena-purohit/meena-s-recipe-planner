@@ -1,75 +1,68 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import SearchBar from "../components/SearchBar";
 import RecipeCard from "../components/RecipeCard";
 import RecipeModal from "../components/RecipeModal";
-import Favorites from "./Favorites";
-
-const recipes = [
-  {
-    id: 1,
-    title: "Spicy Pasta",
-    image: "/pasta.jpg",
-    category: "Dinner",
-    ingredients: ["200g Pasta", "2 cloves Garlic"],
-    instructions: "Boil pasta...",
-  },
-  {
-    id: 2,
-    title: "Salad Bowl",
-    image: "/salad.jpg",
-    category: "Lunch",
-    ingredients: ["Mixed Greens"],
-    instructions: "Chop veggies...",
-  },
-  {
-    id: 3,
-    title: "Grilled Chicken",
-    image: "/chicken.jpg",
-    category: "Dinner",
-    ingredients: ["Chicken"],
-    instructions: "Grill...",
-  },
-  {
-    id: 4,
-    title: "Veggie Burger",
-    image: "/burger.jpg",
-    category: "Lunch",
-    ingredients: ["Patty"],
-    instructions: "Assemble...",
-  },
-  {
-    id: 5,
-    title: "Egg Toast",
-    image: "/eggtoast.jpg",
-    category: "Breakfast",
-    ingredients: ["Eggs"],
-    instructions: "Fry eggs...",
-  },
-];
-
 
 const Home = ({ favorites, toggleFavorite }) => {
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await axios.get(
+          "https://www.themealdb.com/api/json/v1/1/search.php?s=",
+        );
+        const formattedRecipes = (response.data.meals || []).map((meal) => ({
+          id: meal.idMeal,
+          title: meal.strMeal,
+          image: meal.strMealThumb,
+          category: meal.strCategory,
+          instructions: meal.strInstructions,
+          ingredients: [
+            meal.strIngredient1,
+            meal.strIngredient2,
+            meal.strIngredient3,
+            meal.strIngredient4,
+            meal.strIngredient5,
+          ].filter(Boolean),
+        }));
+        setRecipes(formattedRecipes);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching recipe:", error);
+        setLoading(false);
+      }
+    };
+    fetchRecipes();
+  }, []);
 
-const filteredRecipes = recipes.filter((recipe) => {
-  const matchesSearch = recipe.title
-    .toLowerCase()
-    .includes(searchTerm.toLowerCase().trim());
-  const matchesCategory =
-    selectedCategory === "All" || recipe.category === selectedCategory;
-  return matchesSearch && matchesCategory;
-});
+  if (loading)
+    return <div className="text-center mt-10">Loading Yummy Recipe...</div>;
 
-return (
-  
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesSearch = recipe.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase().trim());
+
+    const matchesCategory =
+      selectedCategory === "All" || recipe.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const categories = ["All", ...new Set(recipes.map((r) => r.category))];
+
+  return (
     <main className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-gray-800 mb-8">Popular Recipe</h2>
+
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div>
-        {["All", "Breakfast", "Lunch", "Dinner"].map((cat) => (
+        {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
@@ -83,6 +76,7 @@ return (
           </button>
         ))}
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredRecipes.map((recipe) => (
           <RecipeCard
@@ -101,8 +95,7 @@ return (
         onClose={() => setSelectedRecipe(null)}
       />
     </main>
-  
-);
-}
+  );
+};
 
 export default Home;

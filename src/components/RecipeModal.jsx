@@ -30,13 +30,16 @@ const RecipeModal = ({recipe, isOpen, onClose}) => {
                     </div>
                     <h3 className="text-xl font-bold mb-2">Ingredients:</h3>
                     <ul className="list-disc list-inside text-gray-600 mb-6">
-                        {recipe.ingredients.map((ing, index)=> <li key={index}>{ing}</li>)}
+                        {recipe.ingredients?.map((img, index)=> (
+                            <li key={index}>{img}</li>
+                        ))}
                     </ul>
 
                     <h3 className="text-xl font-bold mb-2">Instructions:</h3>
-                    <p className="text-gray-600 leading-relaxed">{recipe.instructions}</p>
+                    <p className="text-gray-600 leading-relaxed">{recipe.instructions || "Instructions not available."}</p>
                 </div>
             </div>
+            
         </div>
     );
 };
