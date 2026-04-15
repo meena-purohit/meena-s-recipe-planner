@@ -11,35 +11,34 @@ const Home = ({ favorites, toggleFavorite }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const response = await axios.get(
-          "https://www.themealdb.com/api/json/v1/1/search.php?s=",
-        );
-        const formattedRecipes = (response.data.meals || []).map((meal) => ({
-          id: meal.idMeal,
-          title: meal.strMeal,
-          image: meal.strMealThumb,
-          category: meal.strCategory,
-          instructions: meal.strInstructions,
-          ingredients: [
-            meal.strIngredient1,
-            meal.strIngredient2,
-            meal.strIngredient3,
-            meal.strIngredient4,
-            meal.strIngredient5,
-          ].filter(Boolean),
-        }));
-        setRecipes(formattedRecipes);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching recipe:", error);
-        setLoading(false);
-      }
-    };
-    fetchRecipes();
-  }, []);
+ useEffect(() => {
+  const fetchRecipes = async () => {
+    try {
+      const response = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`
+      );
+
+      const formattedRecipes = (response.data.meals || []).map((meal) => ({
+        id: meal.idMeal,
+        title: meal.strMeal,
+        image: meal.strMealThumb,
+        category: meal.strCategory,
+        instructions: meal.strInstructions,
+        ingredients: Array.from({ length: 20 }, (_, i) =>
+          meal[`strIngredient${i + 1}`]
+        ).filter(Boolean)
+      }));
+
+      setRecipes(formattedRecipes);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+      setLoading(false);
+    }
+  };
+
+  fetchRecipes();
+}, [searchTerm]);
 
   if (loading)
     return <div className="text-center mt-10">Loading Yummy Recipe...</div>;
